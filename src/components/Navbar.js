@@ -5,29 +5,12 @@ import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react';
 import { FaBars } from "react-icons/fa"
 
+
 function Navbar() {
-  const dropIn ={
-    hidden: {
-        y: '-10vh',
-        opacity: 0,
-    },
-    visible: { 
-        y:'0',
-        opacity: 1,
-        transition: {
-            type: 'spring',
-            damping: 8,
-            stiffness: 30,
-        }
-    },
-    exit: {
-        y: '10vh',
-        opacity: 0,
-    },
-  };
   const [fillNavbar, setFillNavbar] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const { pathname } = useLocation();
+  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,6 +26,13 @@ function Navbar() {
     window.addEventListener('scroll', handleScroll);
   
   }, [fillNavbar])
+
+  useEffect(() => {
+    if (localStorage.getItem('access_token') != 'none') {
+      setLoggedIn(true)
+    }
+    else setLoggedIn(false)
+  })
 
   const links = [
     {
@@ -69,48 +59,80 @@ function Navbar() {
         id: "profile",
         priority: false
     }
-]
+  ]
+
+  const signOut = () => {
+    localStorage.setItem('access_token', 'none')
+  };
+
+  const signIn = () => {
+
+  };
+
+
 
     return (
-      <div className='flex justify-center mb-40'>
-        <motion.header
-          variants={dropIn}
-          initial='hidden'
-          animate='visible'
-          exit='exit'
-          className={`navbar z-[99999999] py-2 lg:py-4 fixed w-full top-0 ${fillNavbar ? 'fill' : ''}`}
-        >
-          <div className="px-4 mx-auto flex flex-col lg:flex-row lg:items-center justify-center h-full">
-            <div className="flex justify-between items-center">
-              <Link to='/'>
-             image icon
-              </Link>
-    
-              <button
-                className="border-none px-3 py-1 rounded text-gray-200 bg-green-200 opacity-75 hover:opacity-100 lg:hidden cursor-pointer"
-                aria-label="Menu"
-                data-test-id="navbar-menu"
-                onClick={
+      <header className="w-full bg-blue-300 py-4">
+      <div className="">
+
+          <button
+              className="px-3 py-1 rounded text-gray opacity-50 hover:opacity-75 lg:hidden cursor-pointer"
+              onClick={
                   () => {
                       setShowDropdown(!showDropdown);
                   }}
-              >
-                <FaBars size={20} color="#8bcc9a"/>
-              </button>
-            </div>
-         
-            <div className={`${showDropdown ? "flex" : "hidden"} flex-col lg:flex  lg:flex-row lg:ml-auto mt-3 lg:mt-0`} data-test-id="navbar">
-              <div>
-                {links.map(({ name, link, priority, id }) => 
-                  <Link key={name}  to={link} className='md:text-xl text-lg lg:mx-2 mx-0 hover:bg-gray-200/25 hover:bg-opacity-10 hover:bg-black p-2 lg:px-4 rounded duration-300 transition-colors'>
-                      {name}
-                  </Link>
+          >
+              <FaBars />
+          </button>
+   
+          <div className={`${showDropdown ? "flex" : "hidden"} flex-col lg:flex  lg:flex-row lg:ml-auto mt-3 lg:mt-0`} >
+               {loggedIn === true ? (
+                   <div className='flex justify-between w-full'>
+                      <Link className="mx-16" to="/">
+                        ICON
+                      </Link>
+                      <div className='mx-16'>
+                        {links.map(({ name, link, priority, id }) => 
+                            <Link key={name} className={'text-center mx-4'} to={link}>
+                                {name}
+                            </Link>
+                        )}
+                        
+                        <Link to='/'>
+                            <button
+                                className=""
+                                onClick={() => signOut()}
+                            >
+                                Log out
+                            </button>
+                        </Link>
+                       </div>
+                   </div>
+
+               ) : (
+                <div>
+                   <Link to='/login' className='w-full text-right mx-16'>
+                      <button
+                          className=""
+                          onClick={(e) => signIn()}
+                      >
+                          Log in
+                      </button>
+                   </Link>
+                   <Link to='/register' className='w-full text-right mx-16'>
+                      <button
+                          className=""
+                      >
+                          Register
+                      </button>
+                   </Link>
+                  </div>
+          
                 )}
-              </div>
-            </div>
           </div>
-        </motion.header>
+          
       </div>
+  </header>
     );
   }
 

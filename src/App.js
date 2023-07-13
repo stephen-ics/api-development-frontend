@@ -8,6 +8,8 @@ import Home from './pages/Home'
 import Explore from './pages/Explore'
 import Messages from './pages/Messages'
 import Profile from './pages/Profile'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
               <Route path='/explore' exact element={<Explore />}></Route>
               <Route path='/messages' exact element={<Messages />}></Route>
               <Route path='/profile' exact element={<Profile />}></Route>
+              <Route path='/login' exact element={<Login />}></Route>
+              <Route path='/register' exact element={<Register />}></Route>
           </Routes>
     </AnimatePresence>
       </BrowserRouter>
