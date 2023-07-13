@@ -52,21 +52,21 @@ function Navbar() {
         priority: false
     },
     {
-        name: "About",
-        link: "/about",
-        id: "about",
+        name: "Explore",
+        link: "/explore",
+        id: "explore",
         priority: false
     },
     {
-        name: "Experiences",
-        link: "/experiences",
-        id: "experiences",
+        name: "Messages",
+        link: "/messages",
+        id: "messages",
         priority: false
     },
     {
-        name: "Projects",
-        link: "/projects",
-        id: "projects",
+        name: "Profile",
+        link: "/profile",
+        id: "profile",
         priority: false
     }
 ]

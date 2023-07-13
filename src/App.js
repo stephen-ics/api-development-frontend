@@ -5,7 +5,9 @@ import { Helmet } from "react-helmet";
 import { AnimatePresence } from 'framer-motion'
 
 import Home from './pages/Home'
-import About from './pages/About'
+import Explore from './pages/Explore'
+import Messages from './pages/Messages'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -20,8 +22,10 @@ function App() {
         wait
         >
           <Routes>
-              <Route path='/' exact element={<Home/>}></Route>
-              <Route path='/about' exact element={<About/>}></Route>
+              <Route path='/' exact element={<Home />}></Route>
+              <Route path='/explore' exact element={<Explore />}></Route>
+              <Route path='/messages' exact element={<Messages />}></Route>
+              <Route path='/profile' exact element={<Profile />}></Route>
           </Routes>
     </AnimatePresence>
       </BrowserRouter>
