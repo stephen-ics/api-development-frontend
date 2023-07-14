@@ -2,9 +2,18 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Post from '../components/Post'
 import Logo from '../pictures/Logo.png'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('access_token') == 'none') {
+        navigate('/login')
+    }
+    
+}, [])
 
   useEffect(() => {
     const response = fetch('https://www.api-development.xyz/posts/', {
@@ -15,10 +24,11 @@ const Home = () => {
       }    
     }).then(response => {
       console.log('Response status:', response.status); // Add this line
+      
       return response.json()
     })
     .then(data => {
-      console.log('data', data)
+      console.log('data for homepage', data)
       setData(data);
     })
   }, [])

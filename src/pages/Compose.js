@@ -1,13 +1,19 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaImage } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom'
 
 const Compose = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (localStorage.getItem('access_token') == 'none') {
+            navigate('/login')
+        }
+        
+    }, [])
 
     const onSubmit = async (e) => {
         e.preventDefault()

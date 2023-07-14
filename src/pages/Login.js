@@ -10,7 +10,6 @@ const Login = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        console.log('hi')
         const response = await fetch('https://www.api-development.xyz/login', {
             method: 'POST',
             headers: {
@@ -23,11 +22,13 @@ const Login = () => {
         })
         const data = await response.json()
 
+        localStorage.setItem('data', data)
+
         const access_token = data['access_token']
 
         if (access_token != undefined)
         {
-            localStorage.setItem('access_token', (data['access_token']))
+            localStorage.setItem('access_token', data['access_token'])
             navigate('/')
             window.location.reload(); 
         }
@@ -46,9 +47,9 @@ const Login = () => {
                 className="flex flex-col gap-2 mt-2"
                 onSubmit={onSubmit}
             >
-                <label for='email' className='text-xl'>email</label>
+                <label htmlFor='email' className='text-xl'>email</label>
                 <input value={email} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Your email' className='text-black p-2 rounded-xl'/>
-                <label for='password' className='text-xl'>password</label>
+                <label htmlFor='password' className='text-xl'>password</label>
                 <input value={password} onChange={(e) => setPassword(e.target.value)} type='password' placeholder='Your password' className='text-black p-2 rounded-xl'/>
                 <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Log In</button>
             </form>
