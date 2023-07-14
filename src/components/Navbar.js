@@ -111,6 +111,9 @@ function Navbar() {
 
                ) : (
                 <div>
+                   <Link className="mx-16" to="/">
+                        ICON
+                   </Link>
                    <Link to='/login' className='w-full text-right mx-16'>
                       <button
                           className=""
