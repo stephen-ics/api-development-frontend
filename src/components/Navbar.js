@@ -72,70 +72,68 @@ function Navbar() {
 
 
     return (
-      <header className="w-full bg-blue-300 py-4">
-      <div className="">
-
+      <div className='flex justify-center mb-40 text-2xl'>
+        <div className={`navbar z-[99999999] py-2 lg:py-4 fixed w-full top-0 navbar ${fillNavbar ? 'fill' : ''}`} >
           <button
-              className="px-3 py-1 rounded text-gray opacity-50 hover:opacity-75 lg:hidden cursor-pointer"
-              onClick={
-                  () => {
-                      setShowDropdown(!showDropdown);
-                  }}
+            className="px-3 py-1 rounded text-gray opacity-50 hover:opacity-75 lg:hidden cursor-pointer"
+            onClick={
+              () => {
+                  setShowDropdown(!showDropdown);
+              }}
           >
-              <FaBars />
+            <FaBars />
           </button>
-   
-          <div className={`${showDropdown ? "flex" : "hidden"} flex-col lg:flex  lg:flex-row lg:ml-auto mt-3 lg:mt-0`} >
-               {loggedIn === true ? (
-                   <div className='flex justify-between w-full'>
-                      <Link className="mx-16" to="/">
-                        ICON
+    
+          <div className={`${showDropdown ? "flex" : "hidden"} flex-col lg:flex lg:flex-row lg:ml-auto mt-3 lg:mt-0`} >
+            {loggedIn === true ? (
+              <div className='flex justify-between w-full'>
+                <Link className="mx-16" to="/">
+                  ICON
+                </Link>
+                <div className='mx-16'>
+                  {links.map(({ name, link, priority, id }) => 
+                      <Link key={name} className={'text-center mx-4'} to={link}>
+                          {name}
                       </Link>
-                      <div className='mx-16'>
-                        {links.map(({ name, link, priority, id }) => 
-                            <Link key={name} className={'text-center mx-4'} to={link}>
-                                {name}
-                            </Link>
-                        )}
-                        
-                        <Link to='/'>
-                            <button
-                                className=""
-                                onClick={() => signOut()}
-                            >
-                                Log out
-                            </button>
-                        </Link>
-                       </div>
-                   </div>
-
-               ) : (
-                <div>
-                   <Link className="mx-16" to="/">
-                        ICON
-                   </Link>
-                   <Link to='/login' className='w-full text-right mx-16'>
+                  )}
+                  
+                  <Link to='/'>
                       <button
                           className=""
-                          onClick={(e) => signIn()}
+                          onClick={() => signOut()}
                       >
-                          Log in
+                          Logout
                       </button>
-                   </Link>
-                   <Link to='/register' className='w-full text-right mx-16'>
-                      <button
-                          className=""
-                      >
-                          Register
-                      </button>
-                   </Link>
-                  </div>
-          
-                )}
-          </div>
-          
+                  </Link>
+                </div>
+              </div>
+            ) : (
+            <div className='flex justify-between w-full'>
+              <Link className="mx-16" to="/landing">
+                    ICON
+              </Link>
+              <div>
+                <Link to='/login' className='w-full text-right mx-16'>
+                  <button
+                      className=""
+                      onClick={(e) => signIn()}
+                  >
+                      Login
+                  </button>
+                </Link>
+                <Link to='/register' className='w-full text-right mx-16'>
+                  <button
+                      className=""
+                  >
+                      Register
+                  </button>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-  </header>
+    </div>
     );
   }
 

@@ -10,6 +10,7 @@ import Messages from './pages/Messages'
 import Profile from './pages/Profile'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Landing from './pages/Landing'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path='/profile' exact element={<Profile />}></Route>
               <Route path='/login' exact element={<Login />}></Route>
               <Route path='/register' exact element={<Register />}></Route>
+              <Route path='/landing' exact element={<Landing />}></Route>
           </Routes>
     </AnimatePresence>
       </BrowserRouter>
