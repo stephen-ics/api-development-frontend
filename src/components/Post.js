@@ -34,7 +34,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
             if (response.status === 204) {
                 setTimeout(() => {
                     window.location.reload();
-                    }, 1000);
+                    }, 500);
                 }
             }
         )
@@ -51,7 +51,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                 title: editedTitle,
                 content: editedContent,
                 published: true
-            })    
+            })
         })
     }
 

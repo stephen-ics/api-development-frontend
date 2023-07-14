@@ -42,16 +42,10 @@ function Navbar() {
         priority: false
     },
     {
-        name: "Explore",
-        link: "/explore",
-        id: "explore",
-        priority: false
-    },
-    {
-        name: "Messages",
-        link: "/messages",
-        id: "messages",
-        priority: false
+      name: "Compose",
+      link: "/compose",
+      id: "compose",
+      priority: false
     },
     {
         name: "Profile",
