@@ -1,21 +1,36 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import Post from '../components/Post'
-
 import Logo from '../pictures/Logo.png'
 
 const Home = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const response = fetch('https://www.api-development.xyz/posts/', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      }    
+    }).then(response => {
+      console.log('Response status:', response.status); // Add this line
+      return response.json()
+    })
+    .then(data => {
+      console.log('data', data)
+      setData(data);
+    })
+  }, [])
+
+
   return (
-    <div className='flex justify-center lg:justify-normal'>
-      <div className='w-1/2 lg:mx-48 mx-0'>
-        <Post user='river' date='September' title='rivers post' content='river wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden centr wants to go to eden center' pfp={Logo} image={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo} image={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo}/>
-        <Post user='stephen' date='September' title='stephens post' content='stephen wants to code' pfp={Logo}/>
+    <div className='flex justify-center'>
+      <div className='w-1/2 mx-0'>
+      {data.map((post, index) => (
+        <Post key={index} user={post.Post.user.email} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={Logo}/>
+      ))}
+    
       </div>
       
     </div>
