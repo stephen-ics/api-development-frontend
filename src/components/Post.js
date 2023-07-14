@@ -7,9 +7,10 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [options, setOptions] = useState(false)
     const [edit, setEdit] = useState(false)
-    const [data, setData] = useState([])
     const [editedTitle, setEditedTitle] = useState([])
     const [editedContent, setEditedContent] = useState([])
+    const [liked, setLiked] = useState(false)
+    const [voteDirection, setVoteDirection] = useState(1)
 
     const handleToggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -55,6 +56,28 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
         })
     }
 
+    const likePost = (e) => {
+        setLiked(!liked)
+        if (voteDirection == 1) {
+            setVoteDirection(0)
+        }
+        else {
+            setVoteDirection(1)
+        }
+
+        fetch(`https://www.api-development.xyz/votes/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            },
+            body: JSON.stringify({
+                post_id: id,
+                vote_dir: voteDirection
+            })
+        }).then(response => response.json()).then(data => console.log(data))
+    }
+
     const maxLength = 100
     const shouldTruncate = content.length > maxLength;
 
@@ -97,7 +120,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                             ) 
                         }
                         <button onClick={handleOptions}>
-                            <HiDotsHorizontal size={25}/>   
+                            <HiDotsHorizontal size={25}/>
                         </button>
                     </div>
                 </div>
@@ -117,7 +140,19 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                 <img src={image} className=''/>
             </div>
             <div className='mt-4'>
-                <HiHeart size={25} color={'gray'}/>
+            { liked ? (
+                        <div>
+                            <button onClick={likePost}>
+                                <HiHeart size={25} color='red'/>   
+                            </button>
+
+                        </div>
+                    ) : (
+                        <button onClick={likePost}>
+                            <HiHeart size={25} color='black'/>   
+                        </button>
+                    )
+                    }
             </div>
     </div>
   )
