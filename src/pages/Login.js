@@ -22,21 +22,17 @@ const Login = () => {
         })
         const data = await response.json()
 
-        localStorage.setItem('data', data)
-
+        const first_name = data['first_name']
         const access_token = data['access_token']
 
         if (access_token != undefined)
         {
-            localStorage.setItem('access_token', data['access_token'])
+            localStorage.setItem('access_token', access_token)
+            localStorage.setItem('first_name', first_name)
+
             navigate('/')
             window.location.reload(); 
         }
-        console.log('hi', localStorage.getItem('access_token'))
-
-        
-
-
     }
     
   return (

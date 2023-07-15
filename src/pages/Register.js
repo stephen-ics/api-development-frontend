@@ -4,6 +4,8 @@ import { FaImage } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {    
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
@@ -18,6 +20,8 @@ const Register = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
                 email: email,
                 password: password
             })
@@ -34,9 +38,13 @@ const Register = () => {
                 className="flex flex-col gap-2 mt-2"
                 onSubmit={onSubmit}
             >
-                <label for='email' className='text-xl'>email</label>
+                <label htmlFor='f' className='text-xl'>first name</label>
+                <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type='' placeholder='Your first name' className='text-black p-2 rounded-xl'/>
+                <label htmlFor='email' className='text-xl'>last name</label>
+                <input value={lastName} onChange={(e) => setLastName(e.target.value)} type='' placeholder='Your last name' className='text-black p-2 rounded-xl'/>
+                <label htmlFor='email' className='text-xl'>email</label>
                 <input value={email} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Your email' className='text-black p-2 rounded-xl'/>
-                <label for='password' className='text-xl'>password</label>
+                <label htmlFor='password' className='text-xl'>password</label>
                 <input value={password} onChange={(e) => setPassword(e.target.value)} type='password' placeholder='Your password' className='text-black p-2 rounded-xl'/>
                 <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Register</button>
             </form>
