@@ -1,5 +1,4 @@
 import React from 'react'
-import { icons } from 'react-icons'
 import { HiHeart, HiDotsHorizontal } from "react-icons/hi";
 import { useState, useEffect } from 'react'
 
@@ -59,7 +58,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
 
     const likePost = (e) => {
         setLiked(!liked)
-        if (voteDirection == 1) {
+        if (voteDirection === 1) {
             setVoteDirection(0)
         }
         else {
@@ -83,7 +82,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const shouldTruncate = content.length > maxLength;
 
     useEffect(() => {
-        if (image == '') {
+        if (image === '') {
             setHasImage(false)
         }
         else {
@@ -96,7 +95,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
             <div className='flex items-center'>
                 <div className='flex w-full justify-between'>
                     <div className='flex items-center'>
-                        <img className='w-8 mr-2 hidden md:block' src={pfp}/>
+                        <img className='w-8 mr-2 hidden md:block' src={pfp} alt='Profile photo'/>
                         <div className='flex flex-wrap'>
                         <span className='mr-2 text-xl'>Posted by {user}</ span>
                         <span className='text-xl'>{date}</span>
@@ -104,7 +103,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                     </div>
                     <div className='flex items-center'>
                         { options && (
-                            <div className='absolute top-20 right-0'>
+                            <div className='absolute top-20 right-0 bg-white px-4 py-2 rounded-lg z-50'>
                                 <div className='flex flex-col'>
                                     <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={deletePost}>Delete</button>
                                     <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={handleEdit}>Edit</button>

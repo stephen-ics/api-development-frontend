@@ -32,23 +32,13 @@ const Compose = () => {
             const reader = new FileReader();
     
             reader.onloadend = () => {
-                const base64String = reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+                const base64String = reader.result.replace(/^data:image\/(png|jpg|jpeg|webp|gif);base64,/, '');
                 setBase64(base64String);
               };
             
               reader.readAsDataURL(selectedFile);
         }
    
-    };
-    
-    const handleFileRead = (e) => {
-        const arrayBuffer = e.target.result;
-        const bytes = new Uint8Array(arrayBuffer);
-
-        const base64String = btoa(String.fromCharCode.apply(null, bytes));
-        setBase64(base64String)
-        localStorage.setItem('base64', base64String)
-        console.log('base64', base64String)
     };
 
     const onSubmit = async (e) => {
@@ -83,12 +73,7 @@ const Compose = () => {
                 <textarea value={content} onChange={(e) => setContent(e.target.value)} type='' placeholder='Your content' className='text-black p-2 rounded-xl h-24'/>
                 <label htmlFor='images' className='text-xl'>image</label>
                 <input type="file" onChange={handleFileChange} />
-      {byteArray && (
-        <div>
-          Byte Array:
-          {byteArray.join(', ')}
-        </div>
-      )}
+
                 <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Post</button>            
             </form>
         </div>
