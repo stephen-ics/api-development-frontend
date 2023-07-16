@@ -96,8 +96,8 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                         { options && (
                             <div className='absolute top-20 right-0'>
                                 <div className='flex flex-col'>
-                                    <button className='border-solid border-black border-2' onClick={deletePost}>Delete</button>
-                                    <button className='border-solid border-black border-2' onClick={handleEdit}>Edit</button>
+                                    <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={deletePost}>Delete</button>
+                                    <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={handleEdit}>Edit</button>
                                     {
                                         edit && (
                                             <div>
