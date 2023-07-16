@@ -9,7 +9,6 @@ import { FaBars } from "react-icons/fa"
 function Navbar() {
   const [fillNavbar, setFillNavbar] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const { pathname } = useLocation();
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
@@ -59,12 +58,6 @@ function Navbar() {
     localStorage.setItem('access_token', 'none')
   };
 
-  const signIn = () => {
-
-  };
-
-
-
     return (
       <div className='flex justify-center mb-40 text-2xl'>
         <div className={`navbar z-[99999999] py-2 lg:py-4 fixed w-full top-0 navbar ${fillNavbar ? 'fill' : ''}`} >
@@ -75,25 +68,27 @@ function Navbar() {
                   setShowDropdown(!showDropdown);
               }}
           >
-            <FaBars />
+            <div className='py-2 px-2'>
+              <FaBars/>
+            </div>
           </button>
     
           <div className={`${showDropdown ? "flex" : "hidden"} flex-col lg:flex lg:flex-row lg:ml-auto mt-3 lg:mt-0`} >
             {loggedIn === true ? (
-              <div className='flex justify-between w-full'>
-                <Link className="mx-16" to="/">
+              <div className='flex justify-between w-full flex-col lg:flex-row'>
+                <Link className="mx-16 hidden lg:block py-2 px-2" to="/">
                   ICON
                 </Link>
-                <div className='mx-16'>
+                <div className='mx-16 lg:flex-row flex-col flex'>
                   {links.map(({ name, link, priority, id }) => 
-                      <Link key={name} className={'text-center mx-4'} to={link}>
+                      <Link key={name} className={'lg:mx-2 transition ease-in hover:bg-gray-200 duration-200 rounded-xl py-2 px-2'} to={link}>
                           {name}
                       </Link>
                   )}
                   
                   <Link to='/'>
                       <button
-                          className=""
+                          className="transition ease-in hover:bg-gray-200 duration-200 w-full rounded-xl py-2 px-2"
                           onClick={() => signOut()}
                       >
                           Logout
@@ -103,21 +98,20 @@ function Navbar() {
               </div>
             ) : (
             <div className='flex justify-between w-full'>
-              <Link className="mx-16" to="/landing">
+              <Link className="mx-16 hidden lg:block py-2 px-2" to="/landing">
                     ICON
               </Link>
-              <div>
-                <Link to='/login' className='w-full text-right mx-16'>
+              <div className='mx-16 lg:flex-row flex-col flex w-full lg:justify-end'>
+                <Link to='/login' className=''>
                   <button
-                      className=""
-                      onClick={(e) => signIn()}
+                    className="lg:mx-4 transition ease-in hover:bg-gray-200 duration-200 rounded-xl w-full py-2 px-2" 
                   >
                       Login
                   </button>
                 </Link>
-                <Link to='/register' className='w-full text-right mx-16'>
+                <Link to='/register' className=''>
                   <button
-                      className=""
+                    className="lg:mx-4 transition ease-in hover:bg-gray-200 duration-200 rounded-xl w-full py-2 px-2"
                   >
                       Register
                   </button>

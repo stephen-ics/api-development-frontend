@@ -34,7 +34,6 @@ const Compose = () => {
             reader.onloadend = () => {
                 const base64String = reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
                 setBase64(base64String);
-                console.log('base64', base64String);
               };
             
               reader.readAsDataURL(selectedFile);
