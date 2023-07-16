@@ -37,9 +37,9 @@ function Navbar() {
 
   const links = [
     {
-        name: "Home",
-        link: "/",
-        id: "home",
+        name: "Feed",
+        link: "/feed",
+        id: "feed",
         priority: false
     },
     {
@@ -102,7 +102,7 @@ function Navbar() {
               </div>
             ) : (
             <div className='flex justify-between w-full'>
-              <Link className="mx-16 hidden lg:block py-2 px-2" to="/landing">
+              <Link className="mx-16 hidden lg:block py-2 px-2" to="/">
                     ICON
               </Link>
               <div className='mx-16 lg:flex-row flex-col flex w-full lg:justify-end'>

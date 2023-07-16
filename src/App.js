@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { AnimatePresence } from 'framer-motion'
 
-import Home from './pages/Home'
+import Feed from './pages/Feed'
 import Compose from './pages/Compose'
 import Explore from './pages/Explore'
 import Messages from './pages/Messages'
@@ -27,14 +27,14 @@ function App() {
           wait
           >
             <Routes>
-                <Route path='/' exact element={<Home />}></Route>
+                <Route path='/' exact element={<Landing />}></Route>
+                <Route path='/feed' exact element={<Feed />}></Route>
                 <Route path='/compose' exact element={<Compose />}></Route>
                 <Route path='/explore' exact element={<Explore />}></Route>
                 <Route path='/messages' exact element={<Messages />}></Route>
                 <Route path='/profile' exact element={<Profile />}></Route>
                 <Route path='/login' exact element={<Login />}></Route>
                 <Route path='/register' exact element={<Register />}></Route>
-                <Route path='/landing' exact element={<Landing />}></Route>
             </Routes>
       </AnimatePresence>
         </BrowserRouter>

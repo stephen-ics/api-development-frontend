@@ -30,7 +30,7 @@ const Login = () => {
             localStorage.setItem('access_token', access_token)
             localStorage.setItem('first_name', first_name)
 
-            navigate('/')
+            navigate('/feed')
             window.location.reload(); 
         }
     }
