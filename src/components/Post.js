@@ -1,7 +1,7 @@
 import React from 'react'
 import { icons } from 'react-icons'
 import { HiHeart, HiDotsHorizontal } from "react-icons/hi";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -11,6 +11,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const [editedContent, setEditedContent] = useState([])
     const [liked, setLiked] = useState(false)
     const [voteDirection, setVoteDirection] = useState(1)
+    const [hasImage, setHasImage] = useState(false)
 
     const handleToggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -81,6 +82,15 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const maxLength = 100
     const shouldTruncate = content.length > maxLength;
 
+    useEffect(() => {
+        if (image == '') {
+            setHasImage(false)
+        }
+        else {
+            setHasImage(true)
+        }
+    }, [])
+
   return (
     <div className='bg-white my-4 lg:px-12 px-8 pt-8 pb-4 rounded-xl border-gray-200 border-2 border-solid w-full relative shadow-xl'>
             <div className='flex items-center'>
@@ -137,7 +147,11 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                 ) : (
                     <p className='text-lg'>{content}</p>
                 )}
-                <img src={image} className=''/>
+                {hasImage ? (
+                    <img src={`data:image/png;base64,${image}`} alt="Converting to Image" />
+                ) : (
+                    <div></div>
+                )}
             </div>
             <div className='mt-4'>
             { liked ? (

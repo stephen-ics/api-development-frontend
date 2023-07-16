@@ -21,11 +21,25 @@ const Compose = () => {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        setFile(selectedFile);
+        const maxSize = 500 * 1024; // 500KB in bytes
+
+        if (selectedFile.size > maxSize) {
+            alert('Please upload a smaller file')
+        }
+        else {
+            setFile(selectedFile);
     
-        const reader = new FileReader();
-        reader.onload = handleFileRead;
-        reader.readAsArrayBuffer(selectedFile);
+            const reader = new FileReader();
+    
+            reader.onloadend = () => {
+                const base64String = reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+                setBase64(base64String);
+                console.log('base64', base64String);
+              };
+            
+              reader.readAsDataURL(selectedFile);
+        }
+   
     };
     
     const handleFileRead = (e) => {
@@ -34,9 +48,8 @@ const Compose = () => {
 
         const base64String = btoa(String.fromCharCode.apply(null, bytes));
         setBase64(base64String)
+        localStorage.setItem('base64', base64String)
         console.log('base64', base64String)
-    
-    
     };
 
     const onSubmit = async (e) => {

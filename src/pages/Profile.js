@@ -37,12 +37,13 @@ const Profile = () => {
   //   return imageUrl;
   // };
 
-  //    <img src={`data:image/png;base64,${localStorage.getItem('base64')}`} alt="Converted Image" />
+  //      <img src={`data:image/png;base64,${localStorage.getItem('base64')}`} alt="Converted Image" />
+
+
     
   return (
     <div className='mt-64'>
       <h1 className='text-9xl text-center'>Hello {localStorage.getItem('first_name')}</h1>
- 
     </div>
   )
 }
