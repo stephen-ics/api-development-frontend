@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa"
 import { useNavigate } from 'react-router-dom'
 
 
-function Navbar() {
+const Navbar = () => {
   const [fillNavbar, setFillNavbar] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false)
