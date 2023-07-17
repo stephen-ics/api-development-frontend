@@ -9,7 +9,7 @@ const Feed = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('access_token') == 'none') {
+    if (localStorage.getItem('access_token') === 'none') {
         navigate('/login')
     }
     
