@@ -37,7 +37,7 @@ const Login = () => {
     
   return (
     <div className='flex justify-center items-center h-full w-full'>
-        <div className='border-white border-solid border-2 p-24 rounded-xl text-white mt-64'>
+        <div className='border-white border-solid border-2 p-24 rounded-xl text-white'>
             <h1 className='text-center text-3xl font-semibold'>Login</h1>
            <form
                 className="flex flex-col gap-2 mt-2"
