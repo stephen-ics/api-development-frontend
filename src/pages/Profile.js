@@ -6,6 +6,11 @@ import Logo from '../pictures/Logo.png'
 
 const Profile = () => {
   const [data, setData] = useState([])
+  const [openProfile, setOpenProfile] = useState(false)
+  const [openPasswordChange, setOpenPasswordChange] = useState(false)
+  const [oldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -16,7 +21,7 @@ const Profile = () => {
   }, [])
 
   useEffect(() => {
-    const response = fetch('https://www.api-development.xyz/posts/', {
+    const response = fetch('https://www.api-development.xyz/posts/profile', {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
@@ -33,18 +38,75 @@ const Profile = () => {
     })
   }, [])
 
+  const handleClick = () => {
+    setOpenProfile(!openProfile)
+  }
 
+  const handlePasswordReset = () => {
+    setOpenPasswordChange(!openPasswordChange)
+  }
 
-    
+  const resetPassword = (e) => {
+    e.preventDefault()
+
+    fetch(`https://www.api-development.xyz/users/password-reset`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      },
+      body: JSON.stringify({
+          old_password: oldPassword,
+          new_password: newPassword
+      })
+    }).then(response => {
+      if (response.status == 200) {
+        alert('Password successfully changed!')
+      }
+      else {
+        alert('Password reset was unsuccessful')
+      }
+      return response.json()
+    })
+    .then(data => console.log(data))
+  }
+
   return (
-    <div className='flex justify-center w-full'>
+    <div className='flex justify-center w-full bg-opacity-50'>
       <div className='flex flex-col items-start w-1/2'>
-        <div className='flex items-center border-b-gray-600 border-b-2 border-solid lg:px-40'>
+        <div className='flex items-center border-b-gray-600 border-b-2 border-solid lg:px-40 relative'>
           <img src={Logo} className='lg:w-56 lg:h-56 w-32 h-32 rounded-full m-10'/>
           <div className='flex flex-col'>
             <div className='flex flex-col lg:flex-row'>
               <h1 className='text-4xl lg:m-10 my-2'>{localStorage.getItem('first_name')}</h1>
-              <button className='text-3xl border-black border-2 border-solid px-4 py-2 lg:m-10 my-2 rounded-xl'>Edit Profile</button>
+
+                <button className='text-2xl m-10 border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white rounded-lg whitespace-nowrap' onClick={handleClick}>Edit Profile</button>
+                { openProfile && (
+                    <div className='bg-white px-4 py-2 rounded-lg z-50 absolute -right-20'>
+                        <div className='flex flex-col'>
+                            <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={handlePasswordReset}>Password Reset</button>
+                            {
+                                openPasswordChange && (
+                                    <div>
+                                          <form
+                                            className="flex flex-col gap-2 mt-2"
+                                            onSubmit={resetPassword}
+                                          >
+                                            <label htmlFor='email' className='text-xl'>Old Password</label>
+                                            <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} type='' placeholder='Your old password' className='text-black p-2 rounded-xl'/>
+                                            <label htmlFor='password' className='text-xl'>New Password</label>
+                                            <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} type='' placeholder='Your new password' className='text-black p-2 rounded-xl'/>
+                                            <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Reset</button>
+                                        </form>                                                                     
+                                    </div>                                            
+                                ) 
+                            }
+                        </div>
+                        
+                    </div>
+                    ) 
+                }
+   
             </div>
             <div className='flex'>
               <h1 className='text-4xl m-10 lg:block hidden'>Posts: 10</h1>
