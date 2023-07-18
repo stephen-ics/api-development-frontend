@@ -37,7 +37,7 @@ const Login = () => {
     
   return (
     <div className='flex justify-center items-center h-full w-full'>
-        <div className='border-white border-solid border-2 p-24 rounded-xl text-white'>
+        <div className='border-white border-solid border-2 p-24 rounded-xl text-black'>
             <h1 className='text-center text-3xl font-semibold'>Login</h1>
            <form
                 className="flex flex-col gap-2 mt-2"
@@ -50,7 +50,7 @@ const Login = () => {
                 <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Log In</button>
             </form>
             <Link to='/register' className=''>
-                <p className='text-center underline mt-4 text-white'>Don't have an account? Register here</p>
+                <p className='text-center underline mt-4 text-black'>Don't have an account? Register here</p>
             </Link>
 
         </div>

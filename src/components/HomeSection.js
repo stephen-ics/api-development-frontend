@@ -4,14 +4,14 @@ import {
 
 const HomeSection = ({...props}) => {
     return (
-        <section className={`${props.reversed ? 'md:flex-row-reverse' : 'md:flex-row'} p-12 gap-12 flex justify-around md:items-center flex-col text-white`}>
+        <section className={`${props.reversed ? 'md:flex-row-reverse' : 'md:flex-row'} p-12 gap-12 flex justify-around md:items-center flex-col text-zinc-900`}>
             <div>
                 <h1 className="font-mono lg:text-7xl text-5xl font-bold">{props.title}</h1>
-                <h3 className="font-mono lg:text-4xl text-3xl font-bold text-zinc-200 mt-6">
+                <h3 className="font-mono lg:text-4xl text-3xl font-bold text-zinc-800 mt-6">
                     {props.subheading}
                 </h3>
 
-                <p className="font-mono text-zinc-300 lg:text-3xl text-2xl mt-6">{props.description}</p>
+                <p className="font-mono text-zinc-600 lg:text-3xl text-2xl mt-6">{props.description}</p>
 
             </div>
 

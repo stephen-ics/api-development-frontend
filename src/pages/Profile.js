@@ -82,7 +82,7 @@ const Profile = () => {
 
                 <button className='text-2xl m-10 border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white rounded-lg whitespace-nowrap' onClick={handleClick}>Edit Profile</button>
                 { openProfile && (
-                    <div className='bg-white px-4 py-2 rounded-lg z-50 absolute -right-20'>
+                    <div className='bg-white px-4 py-2 rounded-lg z-50 absolute -right-10 top-0'>
                         <div className='flex flex-col'>
                             <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={handlePasswordReset}>Password Reset</button>
                             {

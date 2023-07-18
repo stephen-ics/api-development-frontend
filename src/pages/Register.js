@@ -34,7 +34,7 @@ const Register = () => {
     
   return (
     <div className='flex justify-center items-center h-full w-full'>
-        <div className='border-white border-solid border-2 p-24 rounded-xl text-white'>
+        <div className='border-white border-solid border-2 p-24 rounded-xl text-black'>
             <h1 className='text-center text-3xl font-semibold'>Register</h1>
            <form
                 className="flex flex-col gap-2 mt-2"
@@ -51,7 +51,7 @@ const Register = () => {
                 <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Register</button>
             </form>
             <Link to='/login' className=''>
-                <p className='text-center underline mt-4 text-white'>Already have an account? Log in here</p>
+                <p className='text-center underline mt-4 text-black'>Already have an account? Log in here</p>
             </Link>
 
         </div>
