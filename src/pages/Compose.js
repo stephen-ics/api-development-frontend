@@ -61,7 +61,7 @@ const Compose = () => {
 
   return (
     <div className='flex justify-center items-center h-full w-full'>
-        <div className='border-white border-solid border-2 p-24 rounded-xl text-white mt-64 w-1/2 min-w-fit'>
+        <div className='border-white border-solid border-2 p-24 rounded-xl text-white w-1/2 min-w-fit'>
             <h1 className='text-center text-3xl font-semibold'>Compose</h1>
            <form
                 className="flex flex-col gap-2 mt-2"
