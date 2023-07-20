@@ -5,7 +5,8 @@ import Post from '../components/Post'
 import Logo from '../pictures/Logo.png'
 
 const Profile = () => {
-  const [data, setData] = useState([])
+  const [posts, setPosts] = useState([])
+  const [profileData, setProfileData] = useState()
   const [openProfile, setOpenProfile] = useState(false)
   const [openPasswordChange, setOpenPasswordChange] = useState(false)
   const [oldPassword, setOldPassword] = useState('')
@@ -33,8 +34,21 @@ const Profile = () => {
       return response.json()
     })
     .then(data => {
-      console.log('data for homepage', data)
-      setData(data);
+      setPosts(data);
+    })
+  }, [])
+
+  useEffect(() => {
+    fetch('https://www.api-development.xyz/users/profile-info', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+    }    
+    }).then(response => response.json())
+    .then(data => {
+      console.log(data)
+      setProfileData(data)
     })
   }, [])
 
@@ -93,9 +107,9 @@ const Profile = () => {
                                             onSubmit={resetPassword}
                                           >
                                             <label htmlFor='email' className='text-xl'>Old Password</label>
-                                            <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} type='' placeholder='Your old password' className='text-black p-2 rounded-xl'/>
+                                            <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} type='password' placeholder='Your old password' className='text-black p-2 rounded-xl'/>
                                             <label htmlFor='password' className='text-xl'>New Password</label>
-                                            <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} type='' placeholder='Your new password' className='text-black p-2 rounded-xl'/>
+                                            <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} type='password' placeholder='Your new password' className='text-black p-2 rounded-xl'/>
                                             <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Reset</button>
                                         </form>                                                                     
                                     </div>                                            
@@ -108,15 +122,22 @@ const Profile = () => {
                 }
    
             </div>
-            <div className='flex'>
-              <h1 className='text-4xl m-10 lg:block hidden'>Posts: 10</h1>
-              <h1 className='text-4xl m-10 lg:block hidden'>Likes: 10</h1>
+              { profileData ? (
+                <div className='flex'>
+                  <h1 className='text-4xl m-10 lg:block hidden'>Posts: {profileData['num_posts']}</h1>
+                  <h1 className='text-4xl m-10 lg:block hidden'>Likes: {profileData['num_votes']}</h1>
+                </div>
+              ) : (
+                <div className='flex'>
+                  <h1 className='text-4xl m-10 lg:block hidden'>Posts: </h1>
+                  <h1 className='text-4xl m-10 lg:block hidden'>Likes: </h1>
+                </div>
+              )}
             </div>
-          </div>
         </div>
         <div className='flex flex-col'>
           <h1 className='text-4xl my-4'>My Posts</h1>
-          {data.map((post, index) => (
+          {posts.map((post, index) => (
             <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
           ))}
         </div>
