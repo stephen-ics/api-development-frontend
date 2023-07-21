@@ -16,7 +16,7 @@ const Feed = () => {
 }, [])
 
   useEffect(() => {
-    const response = fetch('https://www.api-development.xyz/posts/', {
+    fetch('https://www.api-development.xyz/posts/', {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const Feed = () => {
     <div className='flex justify-center'>
       <div className='w-1/2 mx-0'>
       {data.map((post, index) => (
-        <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
+        <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image} />
       ))}
     
       </div>     

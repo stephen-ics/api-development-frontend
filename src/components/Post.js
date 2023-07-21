@@ -9,8 +9,21 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const [editedTitle, setEditedTitle] = useState([])
     const [editedContent, setEditedContent] = useState([])
     const [liked, setLiked] = useState(false)
-    const [voteDirection, setVoteDirection] = useState(1)
+    const [voteDirection, setVoteDirection] = useState()
     const [hasImage, setHasImage] = useState(false)
+
+    useEffect(() => {
+        fetch(`https://www.api-development.xyz/posts/votes/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
+        }).then(response => response.json())
+        .then(data => setLiked(data.found_vote))
+    }, [])
+
+
 
     const handleToggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -57,25 +70,34 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     }
 
     const likePost = (e) => {
-        setLiked(!liked)
-        if (voteDirection === 1) {
-            setVoteDirection(0)
+        if (liked) {
+            fetch(`https://www.api-development.xyz/votes/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                },
+                body: JSON.stringify({
+                    post_id: id,
+                    vote_dir: 0
+                })
+            }).then(response => response.json()).then(data => console.log(data))
         }
         else {
-            setVoteDirection(1)
+            fetch(`https://www.api-development.xyz/votes/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                },
+                body: JSON.stringify({
+                    post_id: id,
+                    vote_dir: 1
+                })
+            }).then(response => response.json()).then(data => console.log(data))
         }
 
-        fetch(`https://www.api-development.xyz/votes/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-            },
-            body: JSON.stringify({
-                post_id: id,
-                vote_dir: voteDirection
-            })
-        }).then(response => response.json()).then(data => console.log(data))
+        setLiked(!liked)
     }
 
     const maxLength = 100
@@ -154,18 +176,18 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
             </div>
             <div className='mt-4'>
             { liked ? (
-                        <div>
-                            <button onClick={likePost}>
-                                <HiHeart size={25} color='red'/>   
-                            </button>
+                <div>
+                    <button onClick={likePost}>
+                        <HiHeart size={25} color='red'/>   
+                    </button>
 
-                        </div>
-                    ) : (
-                        <button onClick={likePost}>
-                            <HiHeart size={25} color='black'/>   
-                        </button>
-                    )
-                    }
+                </div>
+            ) : (
+                <button onClick={likePost}>
+                    <HiHeart size={25} color='black'/>   
+                </button>
+            )
+            }
             </div>
     </div>
   )
