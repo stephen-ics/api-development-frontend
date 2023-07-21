@@ -29,10 +29,22 @@ const Navbar = () => {
   }, [fillNavbar])
 
   useEffect(() => {
-    if (localStorage.getItem('access_token') !== 'none') {
-      setLoggedIn(true)
-    }
-    else setLoggedIn(false)
+    fetch('https://www.api-development.xyz/login', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      }
+    }).then((response) => {
+      if (response.status == 401) {
+        setLoggedIn(false)
+      }
+      else if (response.status == 200) {
+        setLoggedIn(true)
+      }
+    })
+    
+
   }, [])
 
   const links = [
@@ -57,7 +69,7 @@ const Navbar = () => {
   ]
 
   const signOut = () => {
-    localStorage.setItem('access_token', 'none')
+    localStorage.removeItem('access_token', 'none')
     navigate('/login')
     window.location.reload(); 
   };

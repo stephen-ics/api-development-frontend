@@ -22,7 +22,7 @@ const Profile = () => {
   }, [])
 
   useEffect(() => {
-    const response = fetch('https://www.api-development.xyz/posts/profile', {
+    fetch('https://www.api-development.xyz/posts/profile', {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const Profile = () => {
       }    
     }).then(response => {
       console.log('Response status:', response.status); // Add this line
-      
+
       return response.json()
     })
     .then(data => {

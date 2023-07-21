@@ -13,11 +13,18 @@ const Compose = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (localStorage.getItem('access_token') == 'none') {
+        fetch('https://www.api-development.xyz/login', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }).then((response) => {
+          if (response.status == 401) {
             navigate('/login')
-        }
-        
-    }, [])
+          }
+        })
+      }, [])
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];

@@ -9,11 +9,18 @@ const Feed = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('access_token') === 'none') {
+    fetch('https://www.api-development.xyz/login', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      }
+    }).then((response) => {
+      if (response.status == 401) {
         navigate('/login')
-    }
-    
-}, [])
+      }
+    })
+  }, [])
 
   useEffect(() => {
     fetch('https://www.api-development.xyz/posts/', {
@@ -22,15 +29,9 @@ const Feed = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       }    
-    }).then(response => {
-      console.log('Response status:', response.status); // Add this line
-      
-      return response.json()
-    })
-    .then(data => {
-      console.log('data for homepage', data)
-      setData(data);
-    })
+    }).then(response => response.json())
+    .then(data => setData(data))
+    
   }, [])
 
 
