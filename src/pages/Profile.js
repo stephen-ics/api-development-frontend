@@ -137,9 +137,11 @@ const Profile = () => {
         </div>
         <div className='flex flex-col'>
           <h1 className='text-4xl my-4'>My Posts</h1>
-          {posts.map((post, index) => (
-            <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
-          ))}
+          {posts &&
+            posts.map((post, index) => (
+              <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
+            ))
+          }
         </div>
       </div>
     </div>
