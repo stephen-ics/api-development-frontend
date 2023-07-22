@@ -9,6 +9,10 @@ const Threads = () => {
     const { id } = useParams();
     const [mainPost, setMainPost] = useState();
     const [threadPosts, setThreadPosts] = useState();
+    const [addThread, setAddThread] = useState(false);
+    const [threadTitle, setThreadTitle] = useState('');
+    const [threadContent, setThreadContent] = useState('');
+    const [threadImage, setThreadImage] = useState('')
     const navigate = useNavigate();
   
     useEffect(() => {
@@ -54,6 +58,10 @@ const Threads = () => {
       })
 
       const handleThread = () => {
+        setAddThread(!addThread)
+      }
+
+      const submitThread = () => {
         fetch(`https://www.api-development.xyz/posts/${id}`, {
             method: 'POST',
             headers: {
@@ -61,8 +69,8 @@ const Threads = () => {
                 'Authorization': `Bearer ${localStorage.getItem('access_token')}`
             },
             body: JSON.stringify({
-                title: 'cool title',
-                content: 'cool content'
+                title: threadTitle,
+                content: threadContent
             })
         })
 
@@ -76,6 +84,20 @@ const Threads = () => {
                     <Post id={mainPost.Post.id} user={mainPost.Post.user.email} user_id={mainPost.Post.user_id} date={mainPost.Post.created_at} title={mainPost.Post.title} content={mainPost.Post.content} pfp={Logo} image={mainPost.Post.image} />
                 }
                 <button onClick={handleThread} className='border-black border-solid border-2 bg-white px-2 py-2'>Add to Thread</button>
+                { addThread && 
+                  <form
+                      className="flex flex-col gap-2 mt-2"
+                      onSubmit={submitThread}
+                  >
+                      <label htmlFor='title' className='text-xl'>title</label>
+                      <input value={threadTitle} onChange={(e) => setThreadTitle(e.target.value)} type='' placeholder='Your title' className='text-black p-2 rounded-xl'/>
+                      <label htmlFor='content' className='text-xl'>content</label>
+                      <textarea value={threadContent} onChange={(e) => setThreadContent(e.target.value)} type='' placeholder='Your content' className='text-black p-2 rounded-xl h-24'/>
+                      <label htmlFor='images' className='text-xl'>image</label>
+      
+                      <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Post</button>            
+                  </form>
+                }
                 { threadPosts &&
                     threadPosts.map((post, index) => (
                         <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>

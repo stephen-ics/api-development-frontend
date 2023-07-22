@@ -4,11 +4,11 @@ import { FaImage } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom'
 
 const Compose = () => {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [file, setFile] = useState("");
-    const [byteArray, setByteArray] = useState("");
-    const [base64, setBase64] = useState("");
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [file, setFile] = useState('');
+    const [byteArray, setByteArray] = useState('');
+    const [base64, setBase64] = useState('');
 
     const navigate = useNavigate()
 
