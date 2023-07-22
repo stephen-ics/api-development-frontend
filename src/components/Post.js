@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom'
 
 const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [userPermission, setUserPermission] = useState(false)
     const [options, setOptions] = useState(false)
     const [edit, setEdit] = useState(false)
-    const [editedTitle, setEditedTitle] = useState([])
-    const [editedContent, setEditedContent] = useState([])
+    const [editedTitle, setEditedTitle] = useState(title)
+    const [editedContent, setEditedContent] = useState(content)
     const [liked, setLiked] = useState(false)
     const [voteDirection, setVoteDirection] = useState()
     const [hasImage, setHasImage] = useState(false)
@@ -26,7 +27,11 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
         .then(data => setLiked(data.found_vote))
     }, [])
 
-
+    useEffect(() => {
+        if (user_id == localStorage.getItem('user_id')) {
+            setUserPermission(true)
+        }        
+    }, [])
 
     const handleToggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -34,6 +39,10 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
 
     const handleOptions = () => {
         setOptions(!options)
+
+        if (!options) {
+            setEdit(false)
+        }
     }
 
     const handleEdit = () => {
@@ -138,24 +147,27 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                     </div>
                     <div className='flex items-center'>
                         { options && (
-                            <div className='absolute top-20 right-0 bg-white px-4 py-2 rounded-lg z-50'>
-                                <div className='flex flex-col'>
-                                    <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={deletePost}>Delete</button>
-                                    <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner' onClick={handleEdit}>Edit</button>
+                            <div className='absolute top-20 right-0 bg-gray-100 px-4 py-2 rounded-lg z-50'>
+                                <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick=''>Report</button>
+                                <div className=''>
+                                    { userPermission && (
+                                        <div className='flex flex-col'>
+                                            <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={deletePost}>Delete</button>
+                                            <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handleEdit}>Edit</button>
+                                        </div>
+                                    )}
                                     {
                                         edit && (
-                                            <div>
-                                                  <form
-                                                    className="flex flex-col gap-2 mt-2"
-                                                    onSubmit={editPost}
-                                                  >
-                                                    <label htmlFor='email' className='text-xl'>Title</label>
-                                                    <input value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} type='' placeholder='Your title' className='text-black p-2 rounded-xl'/>
-                                                    <label htmlFor='password' className='text-xl'>Content</label>
-                                                    <input value={editedContent} onChange={(e) => setEditedContent(e.target.value)} type='' placeholder='Your content' className='text-black p-2 rounded-xl'/>
-                                                    <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Edit</button>
-                                                </form>                                                                     
-                                            </div>                                            
+                                            <form
+                                                className="flex flex-col gap-2 mt-2 w-96"
+                                                onSubmit={editPost}
+                                            >
+                                                <label htmlFor='title' className='text-xl'>title</label>
+                                                <input value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} type='' placeholder='Your title' className='text-black p-2 rounded-xl'/>
+                                                <label htmlFor='content' className='text-xl'>content</label>
+                                                <textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} type='' placeholder='Your content' className='text-black p-2 rounded-xl h-24'/>
+                                                <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Edit</button>            
+                                            </form>                                                                               
                                         ) 
                                     }
                                 </div>

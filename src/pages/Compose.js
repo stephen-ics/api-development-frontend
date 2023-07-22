@@ -63,7 +63,7 @@ const Compose = () => {
             })
         })
 
-        navigate('/')
+        navigate('/feed')
     }
 
   return (

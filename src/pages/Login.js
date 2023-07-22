@@ -24,11 +24,13 @@ const Login = () => {
 
         const first_name = data['first_name']
         const access_token = data['access_token']
+        const user_id = data['user_id']
 
         if (access_token != undefined)
         {
             localStorage.setItem('access_token', access_token)
             localStorage.setItem('first_name', first_name)
+            localStorage.setItem('user_id', user_id)
 
             navigate('/feed')
             window.location.reload(); 
