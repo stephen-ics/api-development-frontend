@@ -148,7 +148,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                     <div className='flex items-center'>
                         { options && (
                             <div className='absolute top-20 right-0 bg-gray-100 px-4 py-2 rounded-lg z-50'>
-                                <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick=''>Report</button>
+                                <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white'>Report</button>
                                 <div className=''>
                                     { userPermission && (
                                         <div className='flex flex-col'>
@@ -193,11 +193,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                 ) : (
                     <p className='text-lg'>{content}</p>
                 )}
-                {hasImage ? (
-                    <img src={`data:image/png;base64,${image}`} alt="Converting to Image" />
-                ) : (
-                    <div></div>
-                )}
+                { hasImage && <img src={image} alt="Converting to Image" /> }
             </div>
             <div className='mt-4'>
             { liked ? (
