@@ -1,6 +1,7 @@
 import React from 'react'
 import { HiHeart, HiDotsHorizontal } from "react-icons/hi";
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -11,6 +12,8 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const [liked, setLiked] = useState(false)
     const [voteDirection, setVoteDirection] = useState()
     const [hasImage, setHasImage] = useState(false)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch(`https://www.api-development.xyz/posts/votes/${id}`, {
@@ -112,6 +115,16 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
         }
     }, [])
 
+    const navigateToThread = () => {
+        navigate(`/threads/${id}`)
+        window.location.reload(); 
+    }
+
+    const dateString = date
+    const dateObject = new Date(dateString);
+    const formattedDate = `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()} ${dateObject.getHours()}:${dateObject.getMinutes()}`;
+
+
   return (
     <div className='bg-white my-4 lg:px-12 px-8 pt-8 pb-4 rounded-xl border-gray-200 border-2 border-solid w-full relative shadow-xl'>
             <div className='flex items-center'>
@@ -120,7 +133,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                         <img className='w-8 mr-2 hidden md:block' src={pfp} alt='Profile photo'/>
                         <div className='flex flex-wrap'>
                         <span className='mr-2 text-xl'>Posted by {user}</ span>
-                        <span className='text-xl'>{date}</span>
+                        <span className='text-xl'>{formattedDate}</span>
                         </div>
                     </div>
                     <div className='flex items-center'>
@@ -156,7 +169,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                     </div>
                 </div>
             </div>
-            <div className='mt-1'>
+            <div className='mt-1 cursor-pointer' onClick={navigateToThread}>
                 <h1 className='text-3xl font-semibold'>{title}</h1>
                 {shouldTruncate && !isExpanded ? (
                     <div>

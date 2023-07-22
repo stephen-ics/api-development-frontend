@@ -24,7 +24,7 @@ const Threads = () => {
         }
       })
     }, [])
-  
+
     useEffect(() => {
         fetch(`https://www.api-development.xyz/posts/${id}`, {
           method: 'GET',
@@ -68,21 +68,26 @@ const Threads = () => {
 
       }
 
-    
-
   return (
-    <div>
-        {mainPost &&
-            <Post id={mainPost.Post.id} user={mainPost.Post.user.email} user_id={mainPost.Post.user_id} date={mainPost.Post.created_at} title={mainPost.Post.title} content={mainPost.Post.content} pfp={Logo} image={mainPost.Post.image} />
-        }
+    <div className=''>
+        <div className='flex justify-center'>
+            <div>
+            {mainPost &&
+                <Post id={mainPost.Post.id} user={mainPost.Post.user.email} user_id={mainPost.Post.user_id} date={mainPost.Post.created_at} title={mainPost.Post.title} content={mainPost.Post.content} pfp={Logo} image={mainPost.Post.image} />
+            }
+            </div>
+        </div>
 
         <button onClick={handleThread} className='border-black border-solid border-2 bg-white px-2 py-2'>Add to Thread</button>
-
-        {threadPosts &&
-            threadPosts.map((post, index) => (
-                <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
-            ))
-        }
+        <div className='flex justify-center'>
+            <div>
+                {threadPosts &&
+                    threadPosts.map((post, index) => (
+                        <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
+                    ))
+                }
+            </div>
+        </div>
 
     </div>
   )
