@@ -1,6 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "firebase/storage";
+import { storage } from "../utils/firebase";
+import { v4 } from "uuid";
 
 import Post from '../components/Post'
 import Logo from '../pictures/Logo.png'
@@ -12,7 +19,7 @@ const Threads = () => {
     const [addThread, setAddThread] = useState(false);
     const [threadTitle, setThreadTitle] = useState('');
     const [threadContent, setThreadContent] = useState('');
-    const [threadImage, setThreadImage] = useState('')
+    const [threadImage, setThreadImage] = useState();
     const navigate = useNavigate();
   
     useEffect(() => {
@@ -57,23 +64,53 @@ const Threads = () => {
 
       })
 
+    const uploadFile = () => {
+      if (threadImage == null) return;
+
+      const maxImageSize = 1000 * 1024; //1 MB
+
+      if (threadImage.size > maxImageSize) {
+        alert('Image size exeeds 1MB limit')
+        throw new Error("Imagize size exceeeds 1MB limit")
+      }
+
+      const imageRef = ref(storage, `images/${threadImage.name + v4()}`)
+      return uploadBytes(imageRef, threadImage).then((snapshot) => {
+        return getDownloadURL(snapshot.ref).then(url => {
+          console.log('url', url)
+          return url
+        })
+      })
+    };
+  
+
       const handleThread = () => {
         setAddThread(!addThread)
       }
 
-      const submitThread = () => {
-        fetch(`https://www.api-development.xyz/posts/${id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-            },
-            body: JSON.stringify({
-                title: threadTitle,
-                content: threadContent
-            })
-        })
+      const submitThread = async (e) => {
+        e.preventDefault()
 
+        try {
+          const imageUrl = await uploadFile()
+
+          const response = await fetch(`https://www.api-development.xyz/posts/${id}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+              },
+              body: JSON.stringify({
+                  title: threadTitle,
+                  content: threadContent,
+                  image: imageUrl
+              })
+          }).then(res =>  window.location.reload())
+        } catch (error) {
+          console.log(error)
+        }
+
+        
       }
 
   return (
@@ -94,7 +131,7 @@ const Threads = () => {
                       <label htmlFor='content' className='text-xl'>content</label>
                       <textarea value={threadContent} onChange={(e) => setThreadContent(e.target.value)} type='' placeholder='Your content' className='text-black p-2 rounded-xl h-24'/>
                       <label htmlFor='images' className='text-xl'>image</label>
-      
+                      <input type="file" onChange={(e) => { setThreadImage(e.target.files[0])}} />
                       <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Post</button>            
                   </form>
                 }

@@ -32,6 +32,14 @@ const Compose = () => {
 
     const uploadFile = () => {
       if (imageUpload == null) return;
+
+      const maxImageSize = 1000 * 1024; //1 MB
+
+      if (imageUpload.size > maxImageSize) {
+        alert('Image size exeeds 1MB limit')
+        throw new Error("Imagize size exceeeds 1MB limit")
+      }
+
       const imageRef = ref(storage, `images/${imageUpload.name + v4()}`)
       return uploadBytes(imageRef, imageUpload).then((snapshot) => {
         return getDownloadURL(snapshot.ref).then(url => {
@@ -43,22 +51,27 @@ const Compose = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        const imageUrl = await uploadFile()
 
-        const response = await fetch('https://www.api-development.xyz/posts/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-            },
-            body: JSON.stringify({
-                title: title,
-                content: content,
-                image: imageUrl
-            })
-        })
+        try {
+          const imageUrl = await uploadFile()
 
-        navigate('/feed')
+          const response = await fetch('https://www.api-development.xyz/posts/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+              },
+              body: JSON.stringify({
+                  title: title,
+                  content: content,
+                  image: imageUrl
+              })
+          }).catch(error => console.log(error))
+  
+          navigate('/feed')
+        } catch (error) {
+          console.log(error)
+        }
     }
 
   return (

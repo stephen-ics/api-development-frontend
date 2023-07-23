@@ -1,8 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { v4 } from 'uuid'
-
 import Post from '../components/Post'
 import Logo from '../pictures/Logo.png'
 
