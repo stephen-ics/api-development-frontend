@@ -125,22 +125,30 @@ const Profile = () => {
   }
 
   const changeBiography = (e) => {
-    e.preventDefault()
-
-    fetch('https://www.api-development.xyz/users/biography', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-      },
-      body: JSON.stringify({
-        new_biography: biographyChange
+    try {
+      const maxCharacterCount = 50
+      if (biographyChange.length > maxCharacterCount) {
+        alert('Character length exceeeds 100 characters')
+        throw new Error("Character length exceeeds 100 characters")
+      }
+  
+      e.preventDefault()
+      fetch('https://www.api-development.xyz/users/biography', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          new_biography: biographyChange
+        })
+      }).then(response => response.json()).then(data => {
+        console.log(data)
+        window.location.reload();
       })
-    }).then(response => response.json()).then(data => {
-      console.log(data)
-      window.location.reload();
-    })
-    
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const uploadFile = () => {
@@ -190,106 +198,98 @@ const Profile = () => {
     <div className='flex justify-center w-full bg-opacity-50'>
       <div className='flex flex-col w-1/2'>
         <div className='flex flex-col lg:flex-row items-center justify-around border-b-gray-600 border-b-2 border-solid lg:px-40'>
-
             { profileData && profileData['profile_photo'] && (    
               <img src={profileData['profile_photo']} alt='pfp' className='lg:w-56 lg:h-56 w-32 h-32 rounded-full object-cover my-4'/>
             )}
-    
           <div className='flex flex-col lg:relative'>
             <div className='flex flex-col lg:flex-row items-center'>
               <h1 className='text-4xl'>{localStorage.getItem('first_name')}</h1>
               <button className='text-2xl mx-4 border-solid border-gray-200 border-2 px-8 shadow-inner bg-white rounded-lg whitespace-nowrap h-16 lg:mt-0 mt-6' onClick={handleClick}>Edit Profile</button>
             
               { openProfile && (
-                  <div className='px-4 py-2 rounded-lg z-50 bg-gray-100 lg:mt-0 mt-6 lg:absolute lg:top-0 lg:ml-96 w-3/4'>
-                      <div className='flex flex-col'>
-                        <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handleProfilePhotoChange}>Change Profile Photo</button>
-                        <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handleBiographyChange}>Change Bio</button>
-                        <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handlePasswordReset}>Password Reset</button>
-                          {
-                              openPasswordChange && (
-                                  <div>
-                                        <form
-                                          className="flex flex-col gap-2 mt-2"
-                                          onSubmit={resetPassword}
-                                        >
-                                          <label htmlFor='email' className='text-xl'>Old Password</label>
-                                          <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} type='password' placeholder='Your old password' className='text-black p-2 rounded-xl'/>
-                                          <label htmlFor='password' className='text-xl'>New Password</label>
-                                          <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} type='password' placeholder='Your new password' className='text-black p-2 rounded-xl'/>
-                                          <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Reset</button>
-                                      </form>                                                                     
-                                  </div>                                            
-                              ) 
-                          }
-                          {
-                            openBiographyChange && (
-                              <div>
-                                <form
-                                  className="flex flex-col gap-2 mt-2"
-                                  onSubmit={changeBiography}
-                                >
-                                    <label htmlFor='email' className='text-xl'>New Biography</label>
-                                    <textarea value={biographyChange} onChange={(e) => setBiographyChange(e.target.value)} type='' placeholder='Your old password' className='text-black p-2 rounded-xl h-24'/>
-                                    <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Change</button>
-                                </form>  
-                              </div>
-                            )
-                          }
-                          {
-                            openProfilePhotoChange && (
-                              <div>
-                                <form
-                                  className="flex flex-col gap-2 mt-2"
-                                  onSubmit={changeProfilePhoto}
-                                >
-                                    <label htmlFor='email' className='text-xl'>New Profile Photo</label>
-                                    <input type="file" className='p-2' onChange={(e) => { setProfilePhotoChange(e.target.files[0])}} />
-                                    <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Change</button>
-                                </form>  
+                <div className='px-4 py-2 rounded-lg z-50 bg-gray-100 lg:mt-0 mt-6 lg:absolute lg:top-0 lg:ml-96 w-3/4'>
+                    <div className='flex flex-col'>
+                      <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handleProfilePhotoChange}>Change Profile Photo</button>
+                      <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handleBiographyChange}>Change Bio</button>
+                      <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handlePasswordReset}>Password Reset</button>
+                        {
+                          openPasswordChange && (
+                            <div>
+                              <form
+                                className="flex flex-col gap-2 mt-2"
+                                onSubmit={resetPassword}
+                              >
+                                <label htmlFor='email' className='text-xl'>Old Password</label>
+                                <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} type='password' placeholder='Your old password' className='text-black p-2 rounded-xl'/>
+                                <label htmlFor='password' className='text-xl'>New Password</label>
+                                <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} type='password' placeholder='Your new password' className='text-black p-2 rounded-xl'/>
+                                <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Reset</button>
+                              </form>                                                                     
+                            </div>                                            
+                          ) 
+                        }
+                        {
+                          openBiographyChange && (
+                            <div>
+                              <form
+                                className="flex flex-col gap-2 mt-2"
+                                onSubmit={changeBiography}
+                              >
+                                <label htmlFor='email' className='text-xl'>New Biography</label>
+                                <textarea value={biographyChange} onChange={(e) => setBiographyChange(e.target.value)} type='' placeholder='Your old password' className='text-black p-2 rounded-xl h-24'/>
+                                <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Change</button>
+                              </form>  
                             </div>
-
-                            )
-                          }
-                          
-                      </div>
-                      
-                  </div>
-                  ) 
+                          )
+                        }
+                        {
+                          openProfilePhotoChange && (
+                            <div>
+                              <form
+                                className="flex flex-col gap-2 mt-2"
+                                onSubmit={changeProfilePhoto}
+                              >
+                                <label htmlFor='email' className='text-xl'>New Profile Photo</label>
+                                <input type="file" className='p-2' onChange={(e) => { setProfilePhotoChange(e.target.files[0])}} />
+                                <button type='submit' className='border-black border-2 border-solid px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Change</button>
+                              </form>  
+                            </div>
+                          )
+                        }
+                    </div>
+                </div>
+                ) 
               }
             </div>
-
-
-
-              { profileData ? (
-                <div className='mt-4'>
-                  <h1 className='text-2xl lg:text-left text-center'>Bio: {profileData['biography']}</h1>
-                  <div className='flex flex-col lg:flex-row items-center my-4'>
-                    <h1 className='text-4xl'>Posts: {profileData['num_posts']}</h1>
-                    <h1 className='text-4xl ml-0 lg:ml-8'>Likes: {profileData['num_votes']}</h1>
-                  </div>
+            { profileData ? (
+              <div className='mt-4'>
+                <h1 className='text-2xl lg:text-left text-center'>Bio: {profileData['biography']}</h1>
+                <div className='flex flex-col lg:flex-row items-center my-4'>
+                  <h1 className='text-4xl'>Posts: {profileData['num_posts']}</h1>
+                  <h1 className='text-4xl ml-0 lg:ml-8'>Likes: {profileData['num_votes']}</h1>
                 </div>
-              ) : (
-                <div className='mt-4'>
-                  <div className='flex my-4'>
-                    <h1 className='text-2xl'>Bio: </h1>
-                    <h1 className='text-4xl'>Posts: </h1>
-                    <h1 className='text-4xl'>Likes: </h1>
-                  </div>
+              </div>
+            ) : (
+              <div className='mt-4'>
+                <div className='flex my-4'>
+                  <h1 className='text-2xl'>Bio: </h1>
+                  <h1 className='text-4xl'>Posts: </h1>
+                  <h1 className='text-4xl'>Likes: </h1>
                 </div>
-              )}
-            </div>
-        </div>
-        <div className='flex flex-col'>
-          <h1 className='text-4xl my-4 text-center lg:text-left'>My Posts</h1>
-          {posts &&
-            posts.map((post, index) => (
-              <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
-            ))
-          }
-        </div>
+              </div>
+            )}
+          </div>
+      </div>
+      <div className='flex flex-col'>
+        <h1 className='text-4xl my-4 text-center lg:text-left'>My Posts</h1>
+        {posts &&
+          posts.map((post, index) => (
+            <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
+          ))
+        }
       </div>
     </div>
+  </div>
   )
 }
 
