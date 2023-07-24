@@ -24,7 +24,7 @@ const Compose = () => {
             'Authorization': `Bearer ${localStorage.getItem('access_token')}`
           }
         }).then((response) => {
-          if (response.status == 401) {
+          if (response.status === 401) {
             navigate('/login')
           }
         })
