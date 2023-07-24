@@ -31,7 +31,10 @@ const Feed = () => {
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       }    
     }).then(response => response.json())
-    .then(data => setData(data))
+    .then(data => {
+      console.log(data)
+      setData(data)}
+    )
     
   }, [searchQuery])
 
@@ -48,7 +51,7 @@ const Feed = () => {
       </form>
       {data &&
         data.map((post, index) => (
-          <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image} />
+          <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={post.Post.user.profile_photo} image={post.Post.image} />
         ))
       }    
       </div>     

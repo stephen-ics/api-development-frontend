@@ -14,6 +14,7 @@ import Logo from '../pictures/Logo.png'
 
 const Threads = () => {
     const { id } = useParams();
+    
     const [mainPost, setMainPost] = useState();
     const [threadPosts, setThreadPosts] = useState();
     const [addThread, setAddThread] = useState(false);
@@ -118,7 +119,7 @@ const Threads = () => {
         <div className='flex justify-center'>
             <div>
                 { mainPost &&
-                    <Post id={mainPost.Post.id} user={mainPost.Post.user.email} user_id={mainPost.Post.user_id} date={mainPost.Post.created_at} title={mainPost.Post.title} content={mainPost.Post.content} pfp={Logo} image={mainPost.Post.image} />
+                    <Post id={mainPost.Post.id} user={mainPost.Post.user.email} user_id={mainPost.Post.user_id} date={mainPost.Post.created_at} title={mainPost.Post.title} content={mainPost.Post.content} pfp={mainPost.Post.user.profile_photo} image={mainPost.Post.image} />
                 }
                 <button onClick={handleThread} className='border-black border-solid border-2 bg-white px-2 py-2'>Add to Thread</button>
                 { addThread && 

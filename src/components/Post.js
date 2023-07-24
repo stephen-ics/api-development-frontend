@@ -161,6 +161,11 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
         }
     }, [])
 
+    const navigateToProfile = () => {
+        navigate(`/users/${user_id}`)
+        window.location.reload(); 
+    }
+
     const navigateToThread = () => {
         navigate(`/threads/${id}`)
         window.location.reload(); 
@@ -170,86 +175,82 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const dateObject = new Date(dateString);
     const formattedDate = `${dateObject.getFullYear()}-${dateObject.getMonth() + 1}-${dateObject.getDate()} ${dateObject.getHours()}:${dateObject.getMinutes()}`;
 
-    
-
-
   return (
     <div className='bg-white my-4 lg:px-12 px-8 pt-8 pb-4 rounded-xl border-gray-200 border-2 border-solid w-full relative shadow-xl'>
-            <div className='flex items-center'>
-                <div className='flex w-full justify-between'>
-                    <div className='flex items-center'>
-                        <img className='w-8 mr-2 hidden md:block' src={pfp} alt='Profile photo'/>
-                        <div className='flex flex-wrap'>
-                        <span className='mr-2 text-xl'>Posted by {user}</ span>
-                        <span className='text-xl'>{formattedDate}</span>
-                        </div>
-                    </div>
-                    <div className='flex items-center'>
-                        { options && (
-                            <div className='absolute top-20 right-0 bg-gray-100 px-4 py-2 rounded-lg z-50'>
-                                <div className='flex flex-col'>
-                                <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white'>Report</button>
-                                    { userPermission && (
-                                        <div className='flex flex-col'>
-                                            <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={deletePost}>Delete</button>
-                                            <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handleEdit}>Edit</button>
-                                        </div>
-                                    )}
-                                    {
-                                        edit && (
-                                            <form
-                                                className="flex flex-col gap-2 mt-2 w-96"
-                                                onSubmit={editPost}
-                                            >
-                                                <label htmlFor='title' className='text-xl'>title</label>
-                                                <input value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} type='' placeholder='Your title' className='text-black p-2 rounded-xl'/>
-                                                <label htmlFor='content' className='text-xl'>content</label>
-                                                <textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} type='' placeholder='Your content' className='text-black p-2 rounded-xl h-24'/>
-                                                <input type="file" className='p-2' onChange={(e) => { setEditedImage(e.target.files[0])}} />
-                                                <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Edit</button>            
-                                            </form>                                                                               
-                                        ) 
-                                    }
-                                </div>
-                                
-                            </div>
-                            ) 
-                        }
-                        <button onClick={handleOptions}>
-                            <HiDotsHorizontal size={25}/>
-                        </button>
+        <div className='flex items-center'>
+            <div className='flex w-full justify-between'>
+                <div className='flex items-center cursor-pointer' onClick={navigateToProfile}>
+                    <img className='w-12 h-12 mr-2 hidden md:block object-cover rounded-full' src={pfp} alt='Profile photo'/>
+                    <div className='flex flex-wrap'>
+                    <span className='mr-2 text-xl'>Posted by {user}</ span>
+                    <span className='text-xl'>{formattedDate}</span>
                     </div>
                 </div>
-            </div>
-            <div className='mt-1 cursor-pointer' onClick={navigateToThread}>
-                <h1 className='text-3xl font-semibold'>{title}</h1>
-                {shouldTruncate && !isExpanded ? (
-                    <div>
-                        <p className='text-lg'>{content.slice(0, maxLength)}...</p>
-                        <button className="text-lg" onClick={handleToggleExpand}>
-                        View More
-                        </button>
-                    </div>
-                ) : (
-                    <p className='text-lg'>{content}</p>
-                )}
-                { hasImage && <img src={image} alt="Converting to Image" /> }
-            </div>
-            <div className='mt-4'>
-            { liked ? (
-                <div>
-                    <button onClick={likePost}>
-                        <HiHeart size={25} color='red'/>   
+                <div className='flex items-center'>
+                    { options && (
+                        <div className='absolute top-20 right-0 bg-gray-100 px-4 py-2 rounded-lg z-50'>
+                            <div className='flex flex-col'>
+                            <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white'>Report</button>
+                                { userPermission && (
+                                    <div className='flex flex-col'>
+                                        <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={deletePost}>Delete</button>
+                                        <button className='border-solid border-gray-200 border-2 px-8 py-2 shadow-inner bg-white' onClick={handleEdit}>Edit</button>
+                                    </div>
+                                )}
+                                {
+                                    edit && (
+                                        <form
+                                            className="flex flex-col gap-2 mt-2 w-96"
+                                            onSubmit={editPost}
+                                        >
+                                            <label htmlFor='title' className='text-xl'>title</label>
+                                            <input value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} type='' placeholder='Your title' className='text-black p-2 rounded-xl'/>
+                                            <label htmlFor='content' className='text-xl'>content</label>
+                                            <textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} type='' placeholder='Your content' className='text-black p-2 rounded-xl h-24'/>
+                                            <input type="file" className='p-2' onChange={(e) => { setEditedImage(e.target.files[0])}} />
+                                            <button type='submit' className='px-10 py-3 bg-white text-black rounded-xl text-2xl opacity-80 hover:opacity-100 transition ease-in-out duration-100 mt-4'>Edit</button>            
+                                        </form>                                                                               
+                                    ) 
+                                }
+                            </div>
+                            
+                        </div>
+                        ) 
+                    }
+                    <button onClick={handleOptions}>
+                        <HiDotsHorizontal size={25}/>
                     </button>
-
+                </div>
+            </div>
+        </div>
+        <div className='mt-1 cursor-pointer' onClick={navigateToThread}>
+            <h1 className='text-3xl font-semibold'>{title}</h1>
+            {shouldTruncate && !isExpanded ? (
+                <div>
+                    <p className='text-lg'>{content.slice(0, maxLength)}...</p>
+                    <button className="text-lg" onClick={handleToggleExpand}>
+                    View More
+                    </button>
                 </div>
             ) : (
+                <p className='text-lg'>{content}</p>
+            )}
+            { hasImage && <img src={image} alt="Converting to Image" /> }
+        </div>
+        <div className='mt-4'>
+        { liked ? (
+            <div>
                 <button onClick={likePost}>
-                    <HiHeart size={25} color='black'/>   
+                    <HiHeart size={25} color='red'/>   
                 </button>
-            )
-            }
+
             </div>
+        ) : (
+            <button onClick={likePost}>
+                <HiHeart size={25} color='black'/>   
+            </button>
+        )}
+        </div>
     </div>
   )
 }

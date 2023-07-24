@@ -13,6 +13,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Landing from './pages/Landing'
 import Threads from './pages/Threads'
+import Users from './pages/Users'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
                 <Route path='/login' exact element={<Login />}></Route>
                 <Route path='/register' exact element={<Register />}></Route>
                 <Route path='/threads/:id' exact element={<Threads />}></Route>
+                <Route path='/users/:id' exact element={<Users />}></Route>
             </Routes>
       </AnimatePresence>
         </BrowserRouter>
