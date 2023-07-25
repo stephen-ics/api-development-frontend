@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './component-styles/Navbar.css'
 import { useState, useEffect } from 'react';
-import { FaBars } from "react-icons/fa"
+import { FaBars, FaWindows } from "react-icons/fa"
 import { useNavigate } from 'react-router-dom'
 
 
@@ -69,7 +69,7 @@ const Navbar = () => {
   ]
 
   const signOut = () => {
-    localStorage.removeItem('access_token', 'none')
+    localStorage.removeItem('access_token')
     navigate('/login')
     window.location.reload(); 
   };

@@ -119,7 +119,7 @@ const Threads = () => {
         <div className='flex justify-center'>
             <div>
                 { mainPost &&
-                    <Post id={mainPost.Post.id} user={mainPost.Post.user.email} user_id={mainPost.Post.user_id} date={mainPost.Post.created_at} title={mainPost.Post.title} content={mainPost.Post.content} pfp={mainPost.Post.user.profile_photo} image={mainPost.Post.image} />
+                    <Post id={mainPost.Post.id} firstName={mainPost.Post.user.first_name} user={mainPost.Post.user.email} user_id={mainPost.Post.user_id} date={mainPost.Post.created_at} title={mainPost.Post.title} content={mainPost.Post.content} pfp={mainPost.Post.user.profile_photo} image={mainPost.Post.image} />
                 }
                 <button onClick={handleThread} className='border-black border-solid border-2 bg-white px-2 py-2'>Add to Thread</button>
                 { addThread && 
@@ -138,7 +138,7 @@ const Threads = () => {
                 }
                 { threadPosts &&
                     threadPosts.map((post, index) => (
-                        <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
+                        <Post key={index} id={post.Post.id} firstName={post.Post.user.first_name} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
                     ))
                 }
             </div>

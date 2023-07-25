@@ -10,7 +10,7 @@ import {
   import { storage } from "../utils/firebase";
   import { v4 } from "uuid";
 
-const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
+const Post = ({ id, firstName, user, user_id, date, title, content, pfp, image }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [userPermission, setUserPermission] = useState(false)
     const [options, setOptions] = useState(false)
@@ -153,7 +153,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
     const shouldTruncate = content.length > maxLength;
 
     useEffect(() => {
-        if (image === '') {
+        if (image === null) {
             setHasImage(false)
         }
         else {
@@ -182,7 +182,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                 <div className='flex items-center cursor-pointer' onClick={navigateToProfile}>
                     <img className='w-12 h-12 mr-2 hidden md:block object-cover rounded-full' src={pfp} alt='Profile photo'/>
                     <div className='flex flex-wrap'>
-                    <span className='mr-2 text-xl'>Posted by {user}</ span>
+                    <span className='mr-2 text-xl'>Posted by {firstName}</ span>
                     <span className='text-xl'>{formattedDate}</span>
                     </div>
                 </div>
@@ -229,7 +229,7 @@ const Post = ({ id, user, user_id, date, title, content, pfp, image }) => {
                 <div>
                     <p className='text-lg'>{content.slice(0, maxLength)}...</p>
                     <button className="text-lg" onClick={handleToggleExpand}>
-                    View More
+public/logo512.png                    View More
                     </button>
                 </div>
             ) : (

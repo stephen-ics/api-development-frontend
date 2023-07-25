@@ -61,7 +61,7 @@ const Profile = () => {
   }, [])
 
   useEffect(() => {
-    fetch('https://www.api-development.xyz/users/profile-info', {
+    fetch(`https://www.api-development.xyz/users/profile-info`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -284,7 +284,7 @@ const Profile = () => {
         <h1 className='text-4xl my-4 text-center lg:text-left'>My Posts</h1>
         {posts &&
           posts.map((post, index) => (
-            <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={Logo} image={post.Post.image}/>
+            <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={post.Post.user.profile_photo} image={post.Post.image}/>
           ))
         }
       </div>
