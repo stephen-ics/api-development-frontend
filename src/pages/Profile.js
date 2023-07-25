@@ -9,7 +9,6 @@ import {
 import { storage } from "../utils/firebase";
 import { v4 } from "uuid";
 import Post from '../components/Post'
-import Logo from '../pictures/Logo.png'
 
 const Profile = () => {
   const [posts, setPosts] = useState([])
@@ -281,10 +280,10 @@ const Profile = () => {
           </div>
       </div>
       <div className='flex flex-col'>
-        <h1 className='text-4xl my-4 text-center lg:text-left'>My Posts</h1>
+        <h1 className='text-4xl my-4 text-center lg:text-left'>My posts</h1>
         {posts &&
           posts.map((post, index) => (
-            <Post key={index} id={post.Post.id} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={post.Post.user.profile_photo} image={post.Post.image}/>
+            <Post key={index} id={post.Post.id} firstName={post.Post.user.first_name} user={post.Post.user.email} user_id={post.Post.user_id} date={post.Post.created_at} title={post.Post.title} content={post.Post.content} pfp={post.Post.user.profile_photo} image={post.Post.image}/>
           ))
         }
       </div>
