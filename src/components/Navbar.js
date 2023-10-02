@@ -4,6 +4,7 @@ import './component-styles/Navbar.css'
 import { useState, useEffect } from 'react';
 import { FaBars, FaWindows } from "react-icons/fa"
 import { useNavigate } from 'react-router-dom'
+import Logo from '../pictures/Logo.png'
 
 
 const Navbar = () => {
@@ -93,7 +94,7 @@ const Navbar = () => {
             {loggedIn === true ? (
               <div className='flex justify-between w-full flex-col lg:flex-row'>
                 <Link className="mx-16 hidden lg:block py-2 px-2" to="/">
-                  ICON
+                  ConnectX
                 </Link>
                 <div className='mx-16 lg:flex-row flex-col flex'>
                   {links.map(({ name, link, priority, id }) => 
